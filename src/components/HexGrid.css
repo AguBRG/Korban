@@ -1,0 +1,243 @@
+/* ── Variables ─────────────────────────────────── */
+:root {
+  --hex-size: 220px;   /* ancho del hexágono */
+  --hex-gap: 12px;
+  --hex-height: calc(var(--hex-size) * 1.15);
+  --hex-step-x: calc(var(--hex-size) + var(--hex-gap));
+  --hex-step-y: calc(var(--hex-step-x) * 0.8660254);
+}
+
+/* ── Section ───────────────────────────────────── */
+.hexgrid {
+  position: relative;
+  overflow: hidden;
+  padding: 6rem 2rem 8rem;
+  background: rgba(10, 15, 26, 0.18);
+  backdrop-filter: blur(22px) saturate(145%);
+  -webkit-backdrop-filter: blur(22px) saturate(145%);
+}
+
+.hexgrid::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    url('/hero-3d-print.jpg') center/cover no-repeat;
+  filter: blur(22px) brightness(0.42);
+  transform: scale(1.12);
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(0, 0, 0, 0.35) 10%,
+    #000 22%,
+    #000 100%
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(0, 0, 0, 0.35) 10%,
+    #000 22%,
+    #000 100%
+  );
+}
+
+.hexgrid::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(8, 12, 20, 0.15) 0%,
+    rgba(8, 12, 20, 0.40) 24%,
+    rgba(8, 12, 20, 0.6) 100%
+  );
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.hexgrid__container {
+  position: relative;
+  z-index: 1;
+  max-width: 900px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+}
+
+/* ── Rows ──────────────────────────────────────── */
+.hexgrid__row {
+  display: flex;
+  justify-content: center;
+  gap: var(--hex-gap);
+}
+
+/*
+ * Los hexágonos con clip-path tipo "pointy-top" se recortan en los bordes.
+ * Para que las filas encajen, desplazamos la fila de abajo −22% de la altura.
+ * Altura del hexágono = ancho * 1.1547 (relación para hexágono flat-top)
+ */
+.hexgrid__row--middle {
+  margin-top: calc(var(--hex-step-y) - var(--hex-height));
+}
+
+.hexgrid__row--bottom {
+  margin-top: calc(var(--hex-step-y) - var(--hex-height));
+}
+
+/* ── Card ──────────────────────────────────────── */
+.hex-card {
+  display: block;
+  width: var(--hex-size);
+  flex-shrink: 0;
+  text-decoration: none;
+  transition: transform 0.3s;
+}
+
+.hex-card:hover {
+  transform: translateY(-6px);
+}
+
+.hex-card--outline {
+  pointer-events: none;
+}
+
+.hex-card--outline:hover {
+  transform: none;
+}
+
+/* Ratio height/width para flat-top hexagons: height = width * tan(60°)/2 * 2 = width * √3/√(4/3) ...
+   Simplificado: usamos aspect-ratio calculado.
+   flat-top hex: height = width * (√3/2) ≈ 0.866
+   BUT for clip-path polygon with 6 points we use a slightly taller box.
+*/
+.hex-card__clip {
+  position: relative;
+  width: 100%;
+  padding-bottom: 115%;   /* ratio que da buen aspecto */
+  clip-path: polygon(
+    50% 0%,
+    100% 25%,
+    100% 75%,
+    50% 100%,
+    0% 75%,
+    0% 25%
+  );
+  overflow: hidden;
+}
+
+.hex-card--outline .hex-card__clip {
+  background: transparent;
+}
+
+.hex-card__clip--outline {
+  clip-path: none;
+  overflow: visible;
+}
+
+.hex-card__outline-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.hex-card__outline-polygon {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.95);
+  stroke-width: 1.6;
+  vector-effect: non-scaling-stroke;
+}
+
+.hex-card__bg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  transition: transform 0.4s;
+}
+
+.hex-card:hover .hex-card__bg {
+  transform: scale(1.06);
+}
+
+.hex-card__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(12, 24, 48, 0.24) 0%,
+    rgba(16, 54, 112, 0.72) 100%
+  );
+  transition: background 0.3s;
+}
+
+.hex-card:hover .hex-card__overlay {
+  background: linear-gradient(
+    to bottom,
+    rgba(18, 44, 92, 0.18) 0%,
+    rgba(34, 94, 196, 0.82) 100%
+  );
+}
+
+.hex-card__content {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  padding-bottom: 22%;
+  gap: 10px;
+}
+
+.hex-card__title {
+  font-family: var(--font-heading);
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: #ffffff;
+  text-align: center;
+}
+
+.hex-card__btn {
+  display: inline-block;
+  font-family: var(--font-heading);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 2px;
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  padding: 5px 14px;
+  transition: all 0.2s;
+}
+
+.hex-card:hover .hex-card__btn {
+  background: var(--green-primary);
+  border-color: var(--green-primary);
+}
+
+/* ── Responsive ────────────────────────────────── */
+@media (max-width: 768px) {
+  :root {
+    --hex-size: 160px;
+    --hex-gap: 10px;
+  }
+
+  .hexgrid {
+    padding: 5rem 1.25rem 6rem;
+  }
+
+}
+
+@media (max-width: 480px) {
+  :root {
+    --hex-size: 130px;
+    --hex-gap: 8px;
+  }
+
+  .hexgrid__row--middle,
+  .hexgrid__row--bottom {
+    margin-top: calc(var(--hex-step-y) - var(--hex-height));
+  }
+}

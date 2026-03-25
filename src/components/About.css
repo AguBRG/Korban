@@ -1,0 +1,35 @@
+.about {
+  background: var(--dark-bg);
+  padding: 4rem 2rem 6rem;
+}
+
+.about__divider {
+  max-width: 700px;
+  margin: 0 auto 2.5rem;
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    var(--border-color),
+    transparent
+  );
+}
+
+.about__container {
+  max-width: 700px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.about__text {
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  font-weight: 300;
+  line-height: 1.8;
+  color: var(--text-light);
+}
+
+.about__text strong {
+  color: #ffffff;
+  font-weight: 600;
+}
