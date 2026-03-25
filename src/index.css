@@ -1,0 +1,41 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --green-primary: #2f6fdd;
+  --green-dark: #1f4fa8;
+  --green-light: #5b8ff0;
+  --dark-bg: #0a0f1a;
+  --dark-mid: #0d1520;
+  --dark-section: #0e1824;
+  --text-white: #ffffff;
+  --text-light: #b0c4d8;
+  --text-muted: #7a9ab8;
+  --border-color: rgba(255,255,255,0.12);
+  --font-heading: 'Rajdhani', sans-serif;
+  --font-body: 'Open Sans', sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--dark-bg);
+  color: var(--text-white);
+  overflow-x: hidden;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+  font-family: var(--font-body);
+}
